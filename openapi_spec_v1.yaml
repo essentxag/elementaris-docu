@@ -1,0 +1,220 @@
+openapi: 3.0.3
+info:
+  title: Elementaris Service
+  description: |-
+    Definition of Elementaris service interface.
+  contact:
+    email: ops@essentx.com
+  version: 1.0.0
+servers:
+  - url: /api/v1
+tags:
+  - name: sbom
+    description: SBOM features
+paths:
+  /sbom:
+    post:
+      tags:
+        - sbom
+      summary: Upload SBOM
+      description: Upload SBOM for analyzation and notarization.
+      operationId: uploadSbom
+      requestBody:
+        description: SBOM to submit
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SbomRequest"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SbomReply"
+        default:
+          description: Errors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorReply"
+  /sbom/temporary-report:
+    post:
+      tags:
+        - sbom
+      summary: Analyze SBOM to receive a report
+      description: Only analyze SBOM without uploading
+      operationId: temporaryReport
+      requestBody:
+        description: CycloneDX SBOM to submit
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TemporaryReportRequest"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TemporaryReportReply"
+        default:
+          description: Errors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorReply"
+  /sbom/reports/{id}:
+    get:
+      tags:
+        - sbom
+      summary: Get report of SBOM
+      description: Get the report of a previously analyzed SBOM
+      operationId: getSbomReport
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID returned by /sbom or /sbom/temporary-report endpoint
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportReply"
+        default:
+          description: Errors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorReply"
+components:
+  schemas:
+    ErrorReply:
+      type: object
+      properties:
+        code:
+          description: Status code
+          type: integer
+        message:
+          description: Message of error (for debug)
+          type: string
+      required:
+        - code
+    TemporaryReportReply:
+      type: object
+      properties:
+        sbomID:
+          type: string
+          format: uuid
+      required:
+        - sbomID
+    SbomReply:
+      type: object
+      properties:
+        sbomID:
+          type: string
+          format: uuid
+      required:
+        - sbomID
+    ReportReply:
+      type: object
+      properties:
+        id:
+          description: ID of SBOM.
+          type: string
+          format: uuid
+        status:
+          description: Status of report operation.
+          type: string
+          example: report-generated
+        report:
+          $ref: "#/components/schemas/SbomReport"
+      required:
+        - id
+        - status
+        - report
+    TemporaryReportRequest:
+      type: object
+      properties:
+        sbom:
+          description: SBOM in CycloneDX format
+          $ref: "#/components/schemas/SbomCycloneDX"
+      required:
+        - sbom
+    SbomRequest:
+      type: object
+      properties:
+        projectPath:
+          description: Path where to store SBOM.
+          type: string
+          example: path/subpath/project
+        sbom:
+          description: SBOM in CycloneDX format
+          $ref: "#/components/schemas/SbomCycloneDX"
+      required:
+        - projectPath
+        - sbom
+    SbomCycloneDX:
+      x-go-type: cyclonedx.BOM
+      x-go-type-import:
+        path: github.com/CycloneDX/cyclonedx-go
+    SbomReport:
+      type: object
+      properties:
+        trustLevelScore:
+          description: "Score of trust level. The higher the better."
+          type: integer
+          example: 8
+          minimum: 1
+          maximum: 10
+        vulnerabilities:
+          type: array
+          items:
+            $ref: "#/components/schemas/SbomVulnerability"
+      required:
+        - trustLevelScore
+    SbomVulnerability:
+      type: object
+      properties:
+        id:
+          description: CVE name.
+          type: string
+          example: "CVE-2999-5484"
+        highestSeverity:
+          description: Highest severity for given CVE.
+          type: string
+          example: critical
+          enum:
+            - critical
+            - high
+            - medium
+            - low
+            - info
+            - none
+            - unknown
+        issues:
+          type: array
+          items:
+            $ref: "#/components/schemas/SbomVulnerabilityIssue"
+      required:
+        - id
+        - highestSeverity
+    SbomVulnerabilityIssue:
+      type: object
+      properties:
+        id:
+          description: "ID of issue. First character indicates severity: I for information, E for error, W for warning."
+          type: string
+          example: "E001"
+          pattern: '^[IEW]\d{3}$'
+        description:
+          description: Description of issue.
+          type: string
+      required:
+        - id
+        - description
