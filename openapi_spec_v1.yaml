@@ -38,6 +38,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorReply"
+      security:
+        - api_key:
+            - read
+            - write
   /sbom/temporary-report:
     post:
       tags:
@@ -64,6 +68,10 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorReply"
+      security:
+        - api_key:
+            - read
+            - write
   /sbom/reports/{id}:
     get:
       tags:
@@ -92,6 +100,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorReply"
+      security:
+        - api_key:
+            - read
 components:
   schemas:
     ErrorReply:
@@ -218,3 +229,8 @@ components:
       required:
         - id
         - description
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header

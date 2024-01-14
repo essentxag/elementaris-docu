@@ -29,7 +29,7 @@ Get report of SBOM
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -56,7 +56,7 @@ Analyze SBOM to receive a report
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 
@@ -83,7 +83,7 @@ Upload SBOM
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key)
 
 ### HTTP request headers
 

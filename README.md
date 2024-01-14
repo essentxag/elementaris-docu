@@ -29,4 +29,10 @@ All URIs are relative to */api/v1*
 <a name="documentation-for-authorization"></a>
 ## Documentation for Authorization
 
-All endpoints do not require authorization.
+<a name="api_key"></a>
+### api_key
+
+- **Type**: API key
+- **API key parameter name**: api_key
+- **Location**: HTTP header
+
