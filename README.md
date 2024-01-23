@@ -33,6 +33,6 @@ All URIs are relative to */api/v1*
 ### api_key
 
 - **Type**: API key
-- **API key parameter name**: api_key
+- **API key parameter name**: Authorization
 - **Location**: HTTP header
 
