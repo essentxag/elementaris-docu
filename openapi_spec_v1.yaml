@@ -140,20 +140,23 @@ components:
           type: string
           format: uuid
         status:
-          description: Status of report operation.
+          description: "Status of report operation. Report is generated for following states: TemporaryReportGenerated,FinalReportGenerated"
           type: string
-          example: report-generated
+          example: PendingScanResult
+          enum:
+            - ErrorDuringScan
+            - PendingScanResult
+            - TemporaryReportGenerated
+            - FinalReportGenerated
         report:
           $ref: "#/components/schemas/SbomReport"
       required:
         - id
         - status
-        - report
     TemporaryReportRequest:
       type: object
       properties:
         sbom:
-          description: SBOM in CycloneDX format
           $ref: "#/components/schemas/SbomCycloneDX"
       required:
         - sbom
@@ -165,7 +168,6 @@ components:
           type: string
           example: path/subpath/project
         sbom:
-          description: SBOM in CycloneDX format
           $ref: "#/components/schemas/SbomCycloneDX"
       required:
         - projectPath
@@ -232,5 +234,5 @@ components:
   securitySchemes:
     api_key:
       type: apiKey
-      name: api_key
+      name: Authorization
       in: header
