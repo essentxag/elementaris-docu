@@ -38,7 +38,7 @@ Get report of SBOM
 
 <a name="temporaryReport"></a>
 # **temporaryReport**
-> TemporaryReportReply temporaryReport(TemporaryReportRequest)
+> TemporaryReportReply temporaryReport(body)
 
 Analyze SBOM to receive a report
 
@@ -48,7 +48,7 @@ Analyze SBOM to receive a report
 
 |Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **TemporaryReportRequest** | [**TemporaryReportRequest**](../Models/TemporaryReportRequest.md)| CycloneDX SBOM to submit | [optional] |
+| **body** | **oas_any_type_not_mapped**| CycloneDX SBOM to submit | [optional] |
 
 ### Return type
 
@@ -65,7 +65,7 @@ Analyze SBOM to receive a report
 
 <a name="uploadSbom"></a>
 # **uploadSbom**
-> SbomReply uploadSbom(SbomRequest)
+> SbomReply uploadSbom(projectPath, body)
 
 Upload SBOM
 
@@ -75,7 +75,8 @@ Upload SBOM
 
 |Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **SbomRequest** | [**SbomRequest**](../Models/SbomRequest.md)| SBOM to submit | [optional] |
+| **projectPath** | **String**| Path of the project. | [default to null] |
+| **body** | **oas_any_type_not_mapped**| SBOM to submit | [optional] |
 
 ### Return type
 

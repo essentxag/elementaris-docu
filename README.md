@@ -19,11 +19,9 @@ All URIs are relative to */api/v1*
  - [ReportReply](./Models/ReportReply.md)
  - [SbomReply](./Models/SbomReply.md)
  - [SbomReport](./Models/SbomReport.md)
- - [SbomRequest](./Models/SbomRequest.md)
  - [SbomVulnerability](./Models/SbomVulnerability.md)
  - [SbomVulnerabilityIssue](./Models/SbomVulnerabilityIssue.md)
  - [TemporaryReportReply](./Models/TemporaryReportReply.md)
- - [TemporaryReportRequest](./Models/TemporaryReportRequest.md)
 
 
 <a name="documentation-for-authorization"></a>

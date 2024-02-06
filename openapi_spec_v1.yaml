@@ -5,7 +5,7 @@ info:
     Definition of Elementaris service interface.
   contact:
     email: ops@essentx.com
-  version: 1.0.0
+  version: 1.1.0
 servers:
   - url: /api/v1
 tags:
@@ -19,12 +19,14 @@ paths:
       summary: Upload SBOM
       description: Upload SBOM for analyzation and notarization.
       operationId: uploadSbom
+      parameters:
+        - $ref: "#/components/parameters/ProjectPathMandatory"
       requestBody:
         description: SBOM to submit
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/SbomRequest"
+              $ref: "#/components/schemas/SbomCycloneDX"
       responses:
         "200":
           description: Successful operation
@@ -54,7 +56,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TemporaryReportRequest"
+              $ref: "#/components/schemas/SbomCycloneDX"
       responses:
         "200":
           description: Successful operation
@@ -153,25 +155,6 @@ components:
       required:
         - id
         - status
-    TemporaryReportRequest:
-      type: object
-      properties:
-        sbom:
-          $ref: "#/components/schemas/SbomCycloneDX"
-      required:
-        - sbom
-    SbomRequest:
-      type: object
-      properties:
-        projectPath:
-          description: Path where to store SBOM.
-          type: string
-          example: path/subpath/project
-        sbom:
-          $ref: "#/components/schemas/SbomCycloneDX"
-      required:
-        - projectPath
-        - sbom
     SbomCycloneDX:
       x-go-type: cyclonedx.BOM
       x-go-type-import:
@@ -231,8 +214,33 @@ components:
       required:
         - id
         - description
+    ProjectPath:
+      type: string
+      pattern: '^[a-zA-Z0-9-]+(?:\/[a-zA-Z0-9-]+)*$'
+    Label:
+      type: string
+
   securitySchemes:
     api_key:
       type: apiKey
       name: Authorization
       in: header
+
+  parameters:
+    ProjectPathMandatory:
+      name: projectPath
+      description: Path of the project.
+      in: query
+      schema:
+        $ref: "#/components/schemas/ProjectPath"
+      required: true
+
+    Labels:
+      name: labels
+      description: Labels of sbom
+      in: query
+      schema:
+        type: array
+        items:
+          $ref: "#/components/schemas/Label"
+      required: false
