@@ -21,7 +21,7 @@ Get report of SBOM
 
 |Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
-| **id** | **UUID**| ID returned by /sbom or /sbom/temporary-report endpoint | [default to null] |
+| **id** | **String**| ID returned by /sbom or /sbom/temporary-report endpoint | [default to null] |
 
 ### Return type
 
