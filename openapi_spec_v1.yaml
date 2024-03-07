@@ -5,7 +5,7 @@ info:
     Definition of Elementaris service interface.
   contact:
     email: ops@essentx.com
-  version: 1.1.0
+  version: 1.2.0
 servers:
   - url: /api/v1
 tags:
@@ -88,7 +88,6 @@ paths:
           description: ID returned by /sbom or /sbom/temporary-report endpoint
           schema:
             type: string
-            format: uuid
       responses:
         "200":
           description: Successful operation
@@ -123,7 +122,6 @@ components:
       properties:
         sbomID:
           type: string
-          format: uuid
       required:
         - sbomID
     SbomReply:
@@ -131,7 +129,6 @@ components:
       properties:
         sbomID:
           type: string
-          format: uuid
       required:
         - sbomID
     ReportReply:
@@ -140,7 +137,6 @@ components:
         id:
           description: ID of SBOM.
           type: string
-          format: uuid
         status:
           description: "Status of report operation. Report is generated for following states: TemporaryReportGenerated,FinalReportGenerated"
           type: string
