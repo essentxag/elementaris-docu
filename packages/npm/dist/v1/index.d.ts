@@ -3,7 +3,6 @@
  * Do not make direct changes to the file.
  */
 
-
 export interface paths {
   "/sbom": {
     /**
@@ -39,25 +38,24 @@ export interface components {
       message?: string;
     };
     TemporaryReportReply: {
-      /** Format: uuid */
       sbomID: string;
     };
     SbomReply: {
-      /** Format: uuid */
       sbomID: string;
     };
     ReportReply: {
-      /**
-       * Format: uuid
-       * @description ID of SBOM.
-       */
+      /** @description ID of SBOM. */
       id: string;
       /**
        * @description Status of report operation. Report is generated for following states: TemporaryReportGenerated,FinalReportGenerated
        * @example PendingScanResult
        * @enum {string}
        */
-      status: "ErrorDuringScan" | "PendingScanResult" | "TemporaryReportGenerated" | "FinalReportGenerated";
+      status:
+        | "ErrorDuringScan"
+        | "PendingScanResult"
+        | "TemporaryReportGenerated"
+        | "FinalReportGenerated";
       report?: components["schemas"]["SbomReport"];
     };
     SbomCycloneDX: unknown;
@@ -80,7 +78,14 @@ export interface components {
        * @example critical
        * @enum {string}
        */
-      highestSeverity: "critical" | "high" | "medium" | "low" | "info" | "none" | "unknown";
+      highestSeverity:
+        | "critical"
+        | "high"
+        | "medium"
+        | "low"
+        | "info"
+        | "none"
+        | "unknown";
       issues?: components["schemas"]["SbomVulnerabilityIssue"][];
     };
     SbomVulnerabilityIssue: {
@@ -112,7 +117,6 @@ export type $defs = Record<string, never>;
 export type external = Record<string, never>;
 
 export interface operations {
-
   /**
    * Upload SBOM
    * @description Upload SBOM for analyzation and notarization.
