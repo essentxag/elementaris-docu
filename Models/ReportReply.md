@@ -3,7 +3,8 @@
 
 | Name | Type | Description | Notes |
 |------------ | ------------- | ------------- | -------------|
-| **id** | **String** | ID of SBOM. | [default to null] |
+| **id** | **String** | DEPRECATED: Use sbomId! ID of SBOM. | [default to null] |
+| **sbomID** | **String** | ID of SBOM. | [default to null] |
 | **status** | **String** | Status of report operation. Report is generated for following states: TemporaryReportGenerated,FinalReportGenerated | [default to null] |
 | **report** | [**SbomReport**](SbomReport.md) |  | [optional] [default to null] |
 

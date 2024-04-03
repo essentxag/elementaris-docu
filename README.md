@@ -8,6 +8,7 @@ All URIs are relative to */api/v1*
 | Class | Method | HTTP request | Description |
 |------------ | ------------- | ------------- | -------------|
 | *SbomApi* | [**getSbomReport**](Apis/SbomApi.md#getsbomreport) | **GET** /sbom/reports/{id} | Get report of SBOM |
+*SbomApi* | [**getTrustLevel**](Apis/SbomApi.md#gettrustlevel) | **GET** /sbom/trustlevels | Get trustlevel of analyzed SBOM |
 *SbomApi* | [**temporaryReport**](Apis/SbomApi.md#temporaryreport) | **POST** /sbom/temporary-report | Analyze SBOM to receive a report |
 *SbomApi* | [**uploadSbom**](Apis/SbomApi.md#uploadsbom) | **POST** /sbom | Upload SBOM |
 
@@ -22,6 +23,8 @@ All URIs are relative to */api/v1*
  - [SbomVulnerability](./Models/SbomVulnerability.md)
  - [SbomVulnerabilityIssue](./Models/SbomVulnerabilityIssue.md)
  - [TemporaryReportReply](./Models/TemporaryReportReply.md)
+ - [TrustLevel](./Models/TrustLevel.md)
+ - [TrustlevelReply](./Models/TrustlevelReply.md)
 
 
 <a name="documentation-for-authorization"></a>
@@ -32,5 +35,12 @@ All URIs are relative to */api/v1*
 
 - **Type**: API key
 - **API key parameter name**: Authorization
+- **Location**: HTTP header
+
+<a name="ApiKeyAuth"></a>
+### ApiKeyAuth
+
+- **Type**: API key
+- **API key parameter name**: X-API-Key
 - **Location**: HTTP header
 

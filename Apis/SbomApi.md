@@ -5,13 +5,14 @@ All URIs are relative to */api/v1*
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
 | [**getSbomReport**](SbomApi.md#getSbomReport) | **GET** /sbom/reports/{id} | Get report of SBOM |
+| [**getTrustLevel**](SbomApi.md#getTrustLevel) | **GET** /sbom/trustlevels | Get trustlevel of analyzed SBOM |
 | [**temporaryReport**](SbomApi.md#temporaryReport) | **POST** /sbom/temporary-report | Analyze SBOM to receive a report |
 | [**uploadSbom**](SbomApi.md#uploadSbom) | **POST** /sbom | Upload SBOM |
 
 
 <a name="getSbomReport"></a>
 # **getSbomReport**
-> ReportReply getSbomReport(id)
+> ReportReply getSbomReport(id, projectPath)
 
 Get report of SBOM
 
@@ -22,6 +23,7 @@ Get report of SBOM
 |Name | Type | Description  | Notes |
 |------------- | ------------- | ------------- | -------------|
 | **id** | **String**| ID returned by /sbom or /sbom/temporary-report endpoint | [default to null] |
+| **projectPath** | **String**| Path of the project. | [optional] [default to null] |
 
 ### Return type
 
@@ -29,7 +31,35 @@ Get report of SBOM
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+[api_key](../README.md#api_key), [ApiKeyAuth](../README.md#ApiKeyAuth)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+<a name="getTrustLevel"></a>
+# **getTrustLevel**
+> TrustlevelReply getTrustLevel(projectPath, sbomID)
+
+Get trustlevel of analyzed SBOM
+
+    Get the trustlevel of a previously analyzed SBOM. Will return essentx elementaris and customer trustlevel.
+
+### Parameters
+
+|Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **projectPath** | **String**| Path of the project. | [default to null] |
+| **sbomID** | **String**| Id of sbom | [default to null] |
+
+### Return type
+
+[**TrustlevelReply**](../Models/TrustlevelReply.md)
+
+### Authorization
+
+[api_key](../README.md#api_key), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -56,7 +86,7 @@ Analyze SBOM to receive a report
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+[api_key](../README.md#api_key), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 
@@ -84,7 +114,7 @@ Upload SBOM
 
 ### Authorization
 
-[api_key](../README.md#api_key)
+[api_key](../README.md#api_key), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 

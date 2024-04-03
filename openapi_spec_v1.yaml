@@ -5,7 +5,7 @@ info:
     Definition of Elementaris service interface.
   contact:
     email: ops@essentx.com
-  version: 1.2.0
+  version: 1.3.0
 servers:
   - url: /api/v1
 tags:
@@ -44,6 +44,9 @@ paths:
         - api_key:
             - read
             - write
+        - ApiKeyAuth:
+            - read
+            - write
   /sbom/temporary-report:
     post:
       tags:
@@ -74,6 +77,9 @@ paths:
         - api_key:
             - read
             - write
+        - ApiKeyAuth:
+            - read
+            - write
   /sbom/reports/{id}:
     get:
       tags:
@@ -88,6 +94,7 @@ paths:
           description: ID returned by /sbom or /sbom/temporary-report endpoint
           schema:
             type: string
+        - $ref: "#/components/parameters/ProjectPath"
       responses:
         "200":
           description: Successful operation
@@ -103,6 +110,36 @@ paths:
                 $ref: "#/components/schemas/ErrorReply"
       security:
         - api_key:
+            - read
+        - ApiKeyAuth:
+            - read
+  /sbom/trustlevels:
+    get:
+      tags:
+        - sbom
+      summary: Get trustlevel of analyzed SBOM
+      description: Get the trustlevel of a previously analyzed SBOM. Will return essentx elementaris and customer trustlevel.
+      operationId: getTrustLevel
+      parameters:
+        - $ref: "#/components/parameters/ProjectPathMandatory"
+        - $ref: "#/components/parameters/SbomIdMandatory"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TrustlevelReply"
+        default:
+          description: Errors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorReply"
+      security:
+        - api_key:
+            - read
+        - ApiKeyAuth:
             - read
 components:
   schemas:
@@ -129,13 +166,19 @@ components:
       properties:
         sbomID:
           type: string
+        projectPath:
+          type: string
       required:
         - sbomID
+        - projectPath
     ReportReply:
       type: object
       properties:
         id:
-          description: ID of SBOM.
+          description: "DEPRECATED: Use sbomId! ID of SBOM."
+          type: string
+        sbomID:
+          description: "ID of SBOM."
           type: string
         status:
           description: "Status of report operation. Report is generated for following states: TemporaryReportGenerated,FinalReportGenerated"
@@ -150,6 +193,7 @@ components:
           $ref: "#/components/schemas/SbomReport"
       required:
         - id
+        - sbomID
         - status
     SbomCycloneDX:
       x-go-type: cyclonedx.BOM
@@ -210,10 +254,43 @@ components:
       required:
         - id
         - description
+    TrustlevelReply:
+      type: object
+      properties:
+        sbomID:
+          description: ID of SBOM.
+          type: string
+        elementarisTrustLevel:
+          description: "Trustlevel set by Essentx Elementaris"
+          $ref: "#/components/schemas/TrustLevel"
+        customerTrustLevel:
+          description: "Trustlevel set by customer signers group"
+          $ref: "#/components/schemas/TrustLevel"
+        trustLevelScore:
+          description: "Score of trust level. The higher the better."
+          type: integer
+          example: 8
+          minimum: 1
+          maximum: 10
+      required:
+        - sbomID
+
+    TrustLevel:
+      type: string
+      example: Trusted
+      enum:
+        - trusted
+        - unsupported
+        - untrusted
+
     ProjectPath:
       type: string
       pattern: '^[a-zA-Z0-9-]+(?:\/[a-zA-Z0-9-]+)*$'
+
     Label:
+      type: string
+
+    SbomId:
       type: string
 
   securitySchemes:
@@ -221,8 +298,19 @@ components:
       type: apiKey
       name: Authorization
       in: header
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
 
   parameters:
+    ProjectPath:
+      name: projectPath
+      description: Path of the project.
+      in: query
+      schema:
+        $ref: "#/components/schemas/ProjectPath"
+      required: false
     ProjectPathMandatory:
       name: projectPath
       description: Path of the project.
@@ -230,7 +318,13 @@ components:
       schema:
         $ref: "#/components/schemas/ProjectPath"
       required: true
-
+    SbomIdMandatory:
+      name: sbomID
+      description: Id of sbom
+      in: query
+      schema:
+        $ref: "#/components/schemas/SbomId"
+      required: true
     Labels:
       name: labels
       description: Labels of sbom
