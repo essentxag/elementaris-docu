@@ -4,11 +4,40 @@ All URIs are relative to */api/v1*
 
 | Method | HTTP request | Description |
 |------------- | ------------- | -------------|
+| [**getSbom**](SbomApi.md#getSbom) | **GET** /sbom | Get SBOM |
 | [**getSbomReport**](SbomApi.md#getSbomReport) | **GET** /sbom/reports/{id} | Get report of SBOM |
 | [**getTrustLevel**](SbomApi.md#getTrustLevel) | **GET** /sbom/trustlevels | Get trustlevel of analyzed SBOM |
 | [**temporaryReport**](SbomApi.md#temporaryReport) | **POST** /sbom/temporary-report | Analyze SBOM to receive a report |
 | [**uploadSbom**](SbomApi.md#uploadSbom) | **POST** /sbom | Upload SBOM |
 
+
+<a name="getSbom"></a>
+# **getSbom**
+> oas_any_type_not_mapped getSbom(projectPath, sbomID)
+
+Get SBOM
+
+    Get current SBOM
+
+### Parameters
+
+|Name | Type | Description  | Notes |
+|------------- | ------------- | ------------- | -------------|
+| **projectPath** | **String**| Path of the project. | [default to null] |
+| **sbomID** | **String**| Id of sbom | [default to null] |
+
+### Return type
+
+[**oas_any_type_not_mapped**](../Models/AnyType.md)
+
+### Authorization
+
+No authorization required
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 <a name="getSbomReport"></a>
 # **getSbomReport**

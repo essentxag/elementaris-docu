@@ -1,0 +1,12 @@
+.openapi-generator-ignore
+Apis/SbomApi.md
+Models/ErrorReply.md
+Models/ReportReply.md
+Models/SbomReply.md
+Models/SbomReport.md
+Models/SbomVulnerability.md
+Models/SbomVulnerabilityIssue.md
+Models/TemporaryReportReply.md
+Models/TrustLevel.md
+Models/TrustlevelReply.md
+README.md
