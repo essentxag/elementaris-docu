@@ -5,7 +5,7 @@ info:
     Definition of Elementaris service interface.
   contact:
     email: ops@essentx.com
-  version: 1.3.0
+  version: 1.4.0
 servers:
   - url: /api/v1
 tags:
@@ -13,6 +13,28 @@ tags:
     description: SBOM features
 paths:
   /sbom:
+    get:
+      tags:
+        - sbom
+      summary: Get SBOM
+      description: Get current SBOM
+      operationId: getSbom
+      parameters:
+        - $ref: "#/components/parameters/ProjectPathMandatory"
+        - $ref: "#/components/parameters/SbomIdMandatory"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SbomCycloneDX"
+        default:
+          description: Errors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorReply"
     post:
       tags:
         - sbom
@@ -261,10 +283,8 @@ components:
           description: ID of SBOM.
           type: string
         elementarisTrustLevel:
-          description: "Trustlevel set by Essentx Elementaris"
           $ref: "#/components/schemas/TrustLevel"
         customerTrustLevel:
-          description: "Trustlevel set by customer signers group"
           $ref: "#/components/schemas/TrustLevel"
         trustLevelScore:
           description: "Score of trust level. The higher the better."
@@ -277,7 +297,7 @@ components:
 
     TrustLevel:
       type: string
-      example: Trusted
+      example: trusted
       enum:
         - trusted
         - unsupported
@@ -287,21 +307,18 @@ components:
       type: string
       pattern: '^[a-zA-Z0-9-]+(?:\/[a-zA-Z0-9-]+)*$'
 
-    Label:
-      type: string
-
     SbomId:
       type: string
 
   securitySchemes:
-    api_key:
-      type: apiKey
-      name: Authorization
-      in: header
     ApiKeyAuth:
       type: apiKey
       in: header
       name: X-API-Key
+    api_key:
+      type: apiKey
+      in: header
+      name: Authorization
 
   parameters:
     ProjectPath:
@@ -325,12 +342,3 @@ components:
       schema:
         $ref: "#/components/schemas/SbomId"
       required: true
-    Labels:
-      name: labels
-      description: Labels of sbom
-      in: query
-      schema:
-        type: array
-        items:
-          $ref: "#/components/schemas/Label"
-      required: false
