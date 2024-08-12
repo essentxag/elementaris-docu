@@ -32,7 +32,7 @@ Get SBOM
 
 ### Authorization
 
-No authorization required
+[api_key](../README.md#api_key), [ApiKeyAuth](../README.md#ApiKeyAuth)
 
 ### HTTP request headers
 

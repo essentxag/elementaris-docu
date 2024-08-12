@@ -35,6 +35,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorReply"
+      security:
+        - api_key:
+            - read
+            - write
+        - ApiKeyAuth:
+            - read
+            - write
     post:
       tags:
         - sbom
